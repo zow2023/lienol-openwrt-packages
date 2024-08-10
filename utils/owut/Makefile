@@ -6,13 +6,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=owut
-PKG_SOURCE_DATE:=2024-07-14
+PKG_SOURCE_DATE:=2024-07-31
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=75faac216707062bdbc1168dc3087b22eccef493
+PKG_SOURCE_VERSION:=e329cb9b8303ac102f1d398eb592a86c52e09a73
 PKG_SOURCE_URL:=https://github.com/efahl/owut.git
-PKG_MIRROR_HASH:=e22035f4bc03c3c9d54cf08b5db29787b009cd186ed82f0b97d5f0c7b412318c
+PKG_MIRROR_HASH:=d83398b4e19f4cf00991537d7bffa3a0d2e33d43e7d8e8275d50f251327c09da
 
 PKG_MAINTAINER:=Eric Fahlgren <ericfahlgren@gmail.com>
 PKG_LICENSE:=GPL-2.0-only
@@ -47,9 +47,16 @@ endef
 define Build/Compile
 endef
 
+define Package/owut/conffiles
+/etc/owut.d/
+endef
+
 define Package/owut/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/files/owut.defaults $(1)/etc/uci-defaults/attendedsysupgrade-owut
+
+	$(INSTALL_DIR) $(1)/etc/owut.d
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/pre-install.sh $(1)/etc/owut.d/pre-install.sh
 
 	$(INSTALL_DIR) $(1)/usr/share/ucode/utils
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/files/argparse.uc $(1)/usr/share/ucode/utils
